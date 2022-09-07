@@ -1,4 +1,6 @@
-      PROGRAM p1Fortran
+C      Group: Boom Bam Pao
+C      Members: Joseph Faulkner, Ismael Reyes, Grant Simon, and Hannah Bridevaux
+       PROGRAM p1Fortran
 10      WRITE(*,*) "Enter a conversion option (1-6 or 0 to exit):"
         WRITE(*,*) "--------------------------"
         WRITE(*,*) "(1) Pounds to Kilograms"
