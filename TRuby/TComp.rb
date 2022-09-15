@@ -1,4 +1,5 @@
 # TComp
+# Joseph Faulkner, Ismael Reyes, Grant Simon, and Hannah Bridevaux
 # This goes over different types of comparisons that can be done in ruby with basic opperations and the comparable mixin
 num_one = 1
 num_two = 2
