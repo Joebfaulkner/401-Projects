@@ -1,0 +1,21 @@
+<h1> Enter Ingredients</h1>
+<%= form_for @ingredient do |f|%>
+  <label> Ingredient Name </label><br/>
+  <%= f.text_field :item %> <br/>
+  <label> Amount </label> <br/>
+  <%= f.text_field :amount %>  <br/>
+  <label> Unit </label> <br/>
+  <%= f.text_field :unit %>  <br/>
+  <%= f.submit "Submit" %> <br/>
+  <br/>
+  <strong> Ingredients </strong> <br/>
+  <% my_ingredients = @ingredients.find_all { |i| i.recipe_id == params[:recipe_id] } %>
+  <% if !my_ingredients.blank? %>
+    <% for item in my_ingredients %>
+      <%= item.amount %> <%= item.unit %> <%= item.item %>   <br/>
+    <% end %>
+  <% else %>
+  <%= "no ingredients match recipe_id" %>
+  <%= params[:recipe_id] %>
+  <% end %>
+<% end %>

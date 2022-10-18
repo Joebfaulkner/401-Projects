@@ -1,0 +1,19 @@
+<h1> Enter the Student Information</h1>
+<%= form_for @student do |f| -%>
+  <label> Firstname </label>
+  <%= f.text_field :firstname %>
+  <label> Lastname </label>
+  <%= f.text_field :lastname %>
+  <%= f.submit "Submit" %>
+<% end -%>
+
+<br/>
+
+<h1> Display All Student Information</h1>
+<% if !@students.blank? %>
+  <% for item in @students %>
+    <%= item.firstname %> <%= item.lastname %> <br/>
+  <% end %>
+<% else %>
+
+<%end%>
