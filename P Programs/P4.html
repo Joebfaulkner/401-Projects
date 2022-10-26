@@ -1,0 +1,236 @@
+<html>
+ <head>
+ <title>Blackjack</title>
+ </head>
+ <body >
+
+<h1>
+    Welcome to Blackjack!
+</h1>
+
+<h3>Dealer's Total: <span id="dealer-sum"></span></h3>
+<div id="dealer-cards"> 
+    <img id="hidden" src="./cards/cards/back.png" >
+</div>
+
+<h2>You: <span id="your-sum"></span></h2>
+<div id="your-cards"></div>
+
+<br>
+<button id="hit"> Hit</button>
+<button id="stand"> Stand</button>
+<button id="restartGame">Deal</button>
+<p id="results"></p>
+
+
+ <script language = "javascript">
+    
+    var dealerSum = 0;
+    var yourSum = 0;
+
+var dealerAceCount = 0;
+var yourAceCount = 0; 
+
+var hidden;
+var deck;
+
+var canHit = true; //allows the player (you) to draw while yourSum <= 21
+
+window.onload = function() {
+    buildDeck();
+    shuffleDeck();
+    startGame();
+}
+
+function buildDeck() {
+    let values = ["a", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"];
+    let types = ["c", "d", "h", "s"];
+    deck = [];
+
+    for (let i = 0; i < types.length; i++) {
+        for (let j = 0; j < values.length; j++) {
+            deck.push(values[j] + types[i]); //A-C -> K-C, A-D -> K-D
+        }
+    }
+     console.log(deck);
+}
+
+function shuffleDeck() {
+    for (let i = 0; i < deck.length; i++) {
+        let j = Math.floor(Math.random() * deck.length); // (0-1) * 52 => (0-51.9999)
+        let temp = deck[i];
+        deck[i] = deck[j];
+        deck[j] = temp;
+    }
+    console.log(deck);
+}
+
+function startGame() {
+    hidden = deck.pop();
+    dealerSum += getValue(hidden);
+    dealerAceCount += checkAce(hidden);
+    
+
+    for (let i = 0; i < 1; i++) {
+        
+        let cardImg = document.createElement("img");
+        let card = deck.pop();
+        cardImg.src = "./cards/cards/" + card + ".png";
+        dealerSum += getValue(card);
+        dealerAceCount += checkAce(card);
+        document.getElementById("dealer-cards").append(cardImg);
+        
+    }
+    console.log(dealerSum);
+
+    for (let i = 0; i < 2; i++) {
+        let cardImg = document.createElement("img");
+        let card = deck.pop();
+        cardImg.src = "./cards/cards/" + card + ".png";
+        yourSum += getValue(card);
+        yourAceCount += checkAce(card);
+        document.getElementById("your-cards").append(cardImg);
+    }
+
+    console.log(yourSum);
+    document.getElementById("hit").addEventListener("click", hit);
+    document.getElementById("stand").addEventListener("click", stand);
+    document.getElementById("restartGame").addEventListener("click", restartGame);
+}
+
+function hit() {
+    if (!canHit) {
+        return;
+    }
+    if(yourSum < 21){
+        canHit = true;
+    }
+    let cardImg = document.createElement("img");
+    let card = deck.pop();
+    cardImg.src = "./cards/cards/" + card + ".png";
+    yourSum += getValue(card);
+    yourAceCount += checkAce(card);
+    document.getElementById("your-cards").append(cardImg);
+
+    if (reduceAce(yourSum, yourAceCount) > 21) { 
+        canHit = false;
+    }
+
+    
+
+    let message = "";
+    if (yourSum > 21) {
+        message = "You Lose!";
+        document.getElementById("results").innerText = message;
+        document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
+        //document.getElementById("dealer-sum").innerText = dealerSum;
+    }
+    else if (dealerSum > 21) {
+        message = "You win!";
+        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
+        document.getElementById("dealer-sum").innerText = dealerSum;
+    }
+    
+    else if (yourSum == dealerSum) {
+        message = "Tie!";
+        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
+        document.getElementById("dealer-sum").innerText = dealerSum;
+    }
+    else if (yourSum > dealerSum) {
+        message = "You Win!";
+        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
+        document.getElementById("dealer-sum").innerText = dealerSum;
+    }
+    else if (yourSum < dealerSum) {
+        message = "You Lose!";
+        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
+        document.getElementById("dealer-sum").innerText = dealerSum;
+        document.getElementById("results").innerText = message;
+    }
+
+    
+    document.getElementById("your-sum").innerText = yourSum;
+
+}
+
+function stand() {
+
+     while (dealerSum < 17) {
+        
+        let cardImg = document.createElement("img");
+        let card = deck.pop();
+        cardImg.src = "./cards/cards/" + card + ".png";
+        dealerSum += getValue(card);
+        dealerAceCount += checkAce(card);
+        document.getElementById("dealer-cards").append(cardImg);
+        
+    }
+
+    dealerSum = reduceAce(dealerSum, dealerAceCount);
+    yourSum = reduceAce(yourSum, yourAceCount);
+
+    canHit = false;
+    
+    document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
+    
+
+    
+
+    let message = "";
+    if (yourSum > 21) {
+        message = "You Lose!";
+    }
+    else if (dealerSum > 21) {
+        message = "You win!";
+    }
+    
+    else if (yourSum == dealerSum) {
+        message = "Tie!";
+    }
+    else if (yourSum > dealerSum) {
+        message = "You Win!";
+    }
+    else if (yourSum < dealerSum) {
+        message = "You Lose!";
+    }
+
+    document.getElementById("dealer-sum").innerText = dealerSum;
+    document.getElementById("your-sum").innerText = yourSum;
+    document.getElementById("results").innerText = message;
+}
+
+function getValue(card) {
+    let data = card; 
+    let value = data[0];
+
+    if (isNaN(value)) { 
+        if (value == "a") {
+            return 11;
+        }
+        return 10;
+    }
+    return parseInt(value);
+}
+
+function checkAce(card) {
+    if (card[0] == "a") {
+        return 1;
+    }
+    return 0;
+}
+
+function reduceAce(playerSum, playerAceCount) {
+    while (playerSum > 21 && playerAceCount > 0) {
+        playerSum -= 10;
+        playerAceCount -= 1;
+    }
+    return playerSum;
+}
+
+function restartGame() {
+    location.reload();
+}
+
+ </script>
+ </body>
+</html>
