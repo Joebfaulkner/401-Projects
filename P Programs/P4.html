@@ -123,34 +123,33 @@ function hit() {
         message = "You Lose!";
         document.getElementById("results").innerText = message;
         document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
-        //document.getElementById("dealer-sum").innerText = dealerSum;
+        
     }
     else if (dealerSum > 21) {
         message = "You win!";
-        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
-        document.getElementById("dealer-sum").innerText = dealerSum;
+        
     }
     
     else if (yourSum == dealerSum) {
         message = "Tie!";
-        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
-        document.getElementById("dealer-sum").innerText = dealerSum;
+        
     }
     else if (yourSum > dealerSum) {
         message = "You Win!";
-        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
-        document.getElementById("dealer-sum").innerText = dealerSum;
+        
     }
     else if (yourSum < dealerSum) {
         message = "You Lose!";
-        //document.getElementById("hidden").src = "./cards/cards/" + hidden + ".png";
-        document.getElementById("dealer-sum").innerText = dealerSum;
+        
         document.getElementById("results").innerText = message;
     }
 
     
     document.getElementById("your-sum").innerText = yourSum;
 
+    if(canHit == false){
+        document.getElementById("dealer-sum").innerText = dealerSum;
+    }
 }
 
 function stand() {
