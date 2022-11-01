@@ -25,8 +25,8 @@ for names in zippednamesList:
                 repeatedNames.append(item)
     first_iteration = False
     previousList = namesList
-print(repeatedNames)
 with open('Output.txt', 'w') as f:
     for line in repeatedNames:
+        print(line)
         f.write(line)
         f.write('\n')
