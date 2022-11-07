@@ -8,11 +8,9 @@ Rails.application.routes.draw do
   delete 'home/delete'
   #root 'welcome#index'
   # root "application#hello"
-  #root 'recipe#new'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-  resources :students
+  #resources :students
   resources :recipes
-  resources :ingredients
   # Defines the root path route ("/")
   # root "articles#index"
 end
