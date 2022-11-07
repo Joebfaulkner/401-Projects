@@ -1,0 +1,16 @@
+<% if !@recipes.blank? %>
+  <strong> Your Recipes </strong> </br>
+  <% for item in @recipes %>
+    <div class = 'child'>
+      <div class = 'child'>
+        <%= link_to item.name, {:controller => 'recipes/new/', :recipe_id => item.id}%>
+      </div>
+      <div class = 'child'>
+        <%= button_to 'delete', { action: "delete", item_id: item.id },
+                                method: :delete, data: { confirm: "Are you sure?" } %>
+      </div>
+    </div>
+    </br>
+  <% end %>
+<% else %>
+<% end %>

@@ -5,11 +5,9 @@ class IngredientsController < ApplicationController
   end
 
   def create
-    puts("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + params[:recipe_id])
     @ingredient = Ingredient.new(ingredients_params)
-    @ingredient.recipe_id = params[:recipe_id]
     if @ingredient.save # save into sql
-      redirect_to new_ingredient_path
+      redirect_to "/ingredients/new/?recipe_id=" + @ingredient.recipe_id.to_s
     end
   end
 

@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  get 'home/menu'
   #get 'ingredients/new'
   #get 'recipe/new'
   #get 'students/new'
   #get 'welcome/index'
   match ':controller(/:action(/:id))', :via => :get
+  delete 'home/delete'
   #root 'welcome#index'
   # root "application#hello"
   #root 'recipe#new'
