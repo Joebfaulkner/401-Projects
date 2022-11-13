@@ -26,12 +26,21 @@
     <% my_ingredients = @ingredients.where(recipe_id: params[:recipe_id]).all %>
     <% if !my_ingredients.blank? %>
       <% for item in my_ingredients %>
-        <%= item.amount %> <%= item.unit %> <%= item.item %>   <br/>
+        <%= item.amount %> <%= item.unit %> <%= item.item %>
+        <div class = "child">
+          <%= link_to "delete", ingredient_path(item), data: {
+                        :ingredient => item,
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure?"
+                      } %>
+        </div>
+        <br/>
       <% end %>
     <% else %>
     <%= "There are no ingredients in this recipe."%>
     <% end %>
   <% end %>
   </br>
-  <%= link_to "Recipe", {:controller => 'recipes/new/', :recipe_id => params[:recipe_id]}%>
+  <%= link_to "Recipe", {:controller => 'recipes/new/', :recipe_id => params[:recipe_id]}%> <br/>
+  <%= link_to "Home", {:controller => 'home', :action => 'menu'}%> <br/>
 </div>

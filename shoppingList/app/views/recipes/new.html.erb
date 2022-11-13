@@ -20,6 +20,7 @@
       <div class = 'child'>
         <%= f.text_field :name%><br/>
       </div>
+      <br/>
       <div class = 'child'>
         <label> Instructions </label>
       </div>
@@ -30,7 +31,15 @@
     <%= f.submit "Submit" %><br/>
   <% end -%>
   <%= link_to "Ingredients", {:controller => 'ingredients/new/', :recipe_id => params[:recipe_id]}%> <br/>
-  <%= link_to "Home", {:controller => 'home', :action => 'menu'}%>
+  <%= link_to "Home", {:controller => 'home', :action => 'menu'}%> <br/>
+  <% if params[:recipe_id] != nil %>
+    <% @recipe = @recipes.find(params[:recipe_id]) %>
+    <%= link_to "Destroy", recipe_path(@recipe), data: {
+                      :recipe => @recipes.find(params[:recipe_id]),
+                      turbo_method: :delete,
+                      turbo_confirm: "Are you sure?"
+                    } %>
+  <% end %>
 </div>
 
 

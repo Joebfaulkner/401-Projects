@@ -1,0 +1,10 @@
+<div class = "parent">
+  <div class = "child">
+    <strong> Shopping List </strong>
+  </div> </br>
+  <% for item in @ingredients %>
+    <%= check_box_tag(:selected) %> <%= item.amount %> <%= item.unit %> <%= item.item %> </br>
+  <%end%>
+  </br>
+  <%= link_to "Home", {:controller => "home/menu"} %>
+</div>
